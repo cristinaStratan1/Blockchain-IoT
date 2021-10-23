@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="AgreementRepositoryTest$InvokeQueryAgreementTransaction" tests="4" skipped="0" failures="0" errors="0" timestamp="2021-10-22T19:31:50" hostname="cris-VirtualBox" time="2.932">
+  <properties/>
+  <testcase name="whenAgreementDoesNotExist()" classname="AgreementRepositoryTest$InvokeQueryAgreementTransaction" time="1.506"/>
+  <testcase name="uploadFileToIPFS()" classname="AgreementRepositoryTest$InvokeQueryAgreementTransaction" time="0.115"/>
+  <testcase name="sendIPFS()" classname="AgreementRepositoryTest$InvokeQueryAgreementTransaction" time="1.123"/>
+  <testcase name="whenAgreementExists()" classname="AgreementRepositoryTest$InvokeQueryAgreementTransaction" time="0.156"/>
+  <system-out><![CDATA[Agreement ARG000 does not exist
+Hash (base 58): Qmdt5kTq1zfBTmgo2mR87FEx7kCY9FPF3jTnokrzfzf5NN
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
