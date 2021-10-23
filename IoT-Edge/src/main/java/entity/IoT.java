@@ -34,6 +34,7 @@ public class IoT implements MqttCallback {
 
 	// publisher
 	public void sendAuthetication() throws Exception {
+//		String idIoT = "my iot id: 01";
 		System.out.println("Sending Authentication ....");
 		gatewayID=null;
 		IoTclient = new MqttClient("tcp://broker.emqx.io:1883", "authenticate");
@@ -74,9 +75,15 @@ public class IoT implements MqttCallback {
 	public void messageArrived(String topic, MqttMessage message) throws Exception {
 		System.out.println("IoT device received: " + message);
 
-
+		boolean access=false;
 		CCMImpl ccm = new CCMImpl();
 		String s = message.toString();
+		if (s.split(" ")[0]=="UPDATE")
+		{
+			System.out.println("CID OF NEW UPDATE IS: " +s.split(" ")[1]);
+			access=true;
+		}
+		else {
 		String[] arr=s.split(",");
 		String[] arr2;
 		if (arr.length>1) {
@@ -85,6 +92,7 @@ public class IoT implements MqttCallback {
 		else
 		{
 			arr2=s.split(" ");
+			
 		}
 		if (gatewayID==null){
 			if( ccm.ccmaes(false,arr[1]+arr[3], Km,"0").equals(arr[arr.length-1]))
@@ -95,13 +103,9 @@ public class IoT implements MqttCallback {
 			for (int i=0;i<arr2.length;i++)
 			{
 
-//				System.out.println("Saving " +ccm.ccmaes(false, arr2[i], Km,"0"));
 				RandFirmSeqsiPlus1[i]= ccm.ccmaes(false, arr2[i], Km,"0");
 			}
 			System.out.println("Random sequence numbers saved");
-//	        MqttClient client=new MqttClient("tcp://broker.emqx.io:1883", "senddeddd");
-//			System.out.println("nonce1: "+arr[3]);
-//			System.out.println("nonce2: "+arr[1]);
 			gatewayID=arr[0];
 			String nonce2 =ccm.ccmaes(false,arr[3], Km, iv);
 			String nonce1 =ccm.ccmaes(false,arr[1], Km, iv);
@@ -122,10 +126,13 @@ public class IoT implements MqttCallback {
 		{
 			System.out.println("SUCCESSFUL authentication");
 		}
-		else
+		else 
 		{
+			if(access == true) {
 			System.out.println("FAILED to authenticate");
+			}
 		}
+	}
 	}
 
 	public void deliveryComplete(IMqttDeliveryToken token) {
